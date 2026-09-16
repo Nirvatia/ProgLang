@@ -51,13 +51,15 @@ int main() {
 }
 ```
 
-![Трансляция и запуск](03/media/1.png)
+Скомпилируем в .exe и запустим
+
+![Компиляция и запуск](03/media/1.png)
 
 ### Задание 4
 
 Создаем файлы
 
-- message.cpp
+message.cpp
 
 ```cpp
 #include "message.h"
@@ -69,7 +71,7 @@ void message(std::string s) {
 }
 ```
 
-- message.h
+message.h
 
 ```h
 #include <string>
@@ -77,43 +79,41 @@ void message(std::string s) {
 void message(std::string s);
 ```
 
-- hello.cpp
+hello.cpp
 
 ```cpp
 #include "hello.h"
 #include "message.h"
 
 void hello() {
-    char mes[] = "Hello World";
-    message(mes);
+    message("Hello World");
 }
 ```
 
-- hello.h
+hello.h
 
 ```h
 void hello();
 ```
 
-- goodbye.cpp
+goodbye.cpp
 
 ```cpp
 #include "goodbye.h"
 #include "message.h"
 
 void goodbye() {
-    char mes[] = "Goodbye World";
-    message(mes);
+    message("Goodbye World");
 }
 ```
 
-- goodbye.h
+goodbye.h
 
 ```h
 void goodbye();
 ```
 
-- main.cpp
+main.cpp
 
 ```cpp
 #include "hello.h"
@@ -149,7 +149,7 @@ int main() {
 
 Создаем файлы
 
-- Message.java
+Message.java
 
 ```java
 public class Message {
@@ -159,7 +159,7 @@ public class Message {
 }
 ```
 
-- Goodbye.java
+Goodbye.java
 
 ```java
 public class Goodbye {
@@ -169,7 +169,7 @@ public class Goodbye {
 }
 ```
 
-- Hello.java
+Hello.java
 
 ```java
 public class Hello {
@@ -179,7 +179,7 @@ public class Hello {
 }
 ```
 
-- Main.java
+Main.java
 
 ```java
 public class Main {
@@ -218,14 +218,14 @@ public class Message {
 
 Создаем файлы
 
-- message.py
+message.py
 
 ```py
 def message(s):
     print(s)
 ```
 
-- goodbye.py
+goodbye.py
 
 ```py
 import message
@@ -234,7 +234,7 @@ def goodbye():
     message.message("Goodbye World")
 ```
 
-- hello.py
+hello.py
 
 ```py
 import message
@@ -243,7 +243,7 @@ def hello():
     message.message("Hello World")
 ```
 
-- main.py
+main.py
 
 ```py
 import hello
@@ -329,6 +329,8 @@ void message(std::string s);
 
 При изменении прототипа функции из message.cpp, message.h (заодно доработаем hello.cpp, goodbye.cpp) Makefile заново соберет программу, потому что hello.cpp, goodbye.cpp зависят от message.cpp
 
+message.cpp
+
 ```cpp
 #include "message.h"
 #include <iostream>
@@ -339,11 +341,15 @@ void message(char* mes) {
 }
 ```
 
+message.h 
+
 ```h
 #include <string>
 
 void message(char* mes);
 ```
+
+hello.cpp
 
 ```cpp
 #include "hello.h"
@@ -355,6 +361,8 @@ void hello() {
 }
 ```
 
+goodbye.cpp
+
 ```cpp
 #include "goodbye.h"
 #include "message.h"
@@ -364,6 +372,8 @@ void goodbye() {
     message(mes);
 }
 ```
+
+Компилируем и запустим после всех изменений
 
 ![Сборка и запуск после изменения message выполнены](04/media/9.png)
 
@@ -504,11 +514,11 @@ int main() {
 }
 ```
 
-Выполним трансляцию с уровнями оптимизации O0, O1, O2 и посмотрим на различия в коде ассемблера
+Выполним компиляцию с уровнями оптимизации O0, O1, O2 и посмотрим на различия в коде ассемблера
 
 ![Трансляция выполнена](09/media/1.png)
 
-1. Посмотрим на код в main_O0.s
+Посмотрим на код в main_O0.s
 ```s
 movl $0, -8(%rbp)        # i = 0
 jmp .L2                  # переход к проверке условия
@@ -523,7 +533,7 @@ jle .L3                  # повторить цикл
 
 Компилятор просто переводит код в ассемблер без дополнительных действий. Создает переменные x и s в памяти, делает честный цикл с проверкой условия 123 раза. На каждой итерации загружает x из памяти, прибавляет к s, увеличивает счетчик i, проверяет i < 123. 
 
-2. Посмотрим на код в main_O1.s
+Посмотрим на код в main_O1.s
 ```s
 movl $123, %eax
 .L2:
@@ -534,7 +544,7 @@ imull $123, %edx, %edx   # edx = edx * 123 (то есть x * 123)
 
 Компилятор теперь делает свою математику: он понял, что можно и не прибавлять 123 раза одно и то же число. Вместо цикла он делает s = x * 123. 
 
-3. Посмотрим на код в main_O2.s
+Посмотрим на код в main_O2.s
 ```s
 call _ZNSirsERi             # cin >> x
 imull $123, 44(%rsp), %edx  # edx = x * 123
@@ -542,4 +552,4 @@ call _ZNSolsEi              # cout << s
 xorl %eax, %eax             
 ```
 
-Цикл полностью исчез. Компилятор сразу после чтения x делает умножение x * 123 и выводит результат. Код максимально компактный. 
+Цикл полностью исчез. Компилятор сразу после чтения x делает умножение x * 123 и выводит результат.
