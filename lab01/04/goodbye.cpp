@@ -2,6 +2,5 @@
 #include "message.h"
 
 void goodbye() {
-    char mes[] = "Goodbye World";
-    message(mes);
+    message("Goodbye World");
 }
