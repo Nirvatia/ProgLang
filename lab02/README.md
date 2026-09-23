@@ -10,6 +10,7 @@
 - Java: `public`, `static`, `void`, `new`, `boolean`
 - Python: `def`, `return`, `if`, `for`, `import`
 
+![Ошибка при использовании ключевого слова как имени переменной в C++](01/media/1.png)
 
 Ошибка: `multiple types in one declaration` - сразу объявил более одного типа. Другая ошибка `declaration does not declare anything` говорит о том, что я вообще ничего не объявил. 
 
